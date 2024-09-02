@@ -5,7 +5,7 @@ import NoteContext from '../context/notes/noteContext'
 function Addnotes() {
     const context = useContext(NoteContext);
     const { addNote } = context;
-    const [notess, setNotess] = useState({ title: "", description: "", tag: "default" });
+    const [notess, setNotess] = useState({ title: "", description: "", tag: "" });
 
     const handleChange = (e) => {
         setNotess({ ...notess, [e.target.name]: e.target.value });
@@ -15,6 +15,7 @@ function Addnotes() {
     const handleClick = (e) => {
         e.preventDefault();
         addNote(notess.title, notess.description, notess.tag);
+        setNotess({ title: "", description: "", tag: "" }); // Reset the form fields after adding the note
     };
 
     return (
@@ -31,7 +32,7 @@ function Addnotes() {
                                 className="form-control"
                                 id="title"
                                 name="title"
-                                placeholder="Enter title"
+                                placeholder="Enter title of 5 character atleast"
                                 onChange={handleChange}
                                 value={notess.title} // Add this line
                             />
@@ -43,7 +44,7 @@ function Addnotes() {
                                 className="form-control"
                                 id="description"
                                 name="description"
-                                placeholder="Enter Description"
+                                placeholder="Enter Description of 5 character atleast"
                                 onChange={handleChange}
                                 value={notess.description} // Add this line
                             />
@@ -58,10 +59,11 @@ function Addnotes() {
                                 placeholder="Enter tag"
                                 onChange={handleChange}
                                 value={notess.tag} // Add this line
+                                required
                             />
                         </div>
                         <div className="d-flex justify-content-center">
-                            <button
+                            <button disabled={notess.title.length<5 || notess.description.length<5}
                                 type="submit"
                                 className="btn btn-secondary"
                                 style={{ width: '400px', backgroundColor: 'rgb(45 97 150)' }}
